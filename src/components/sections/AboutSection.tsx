@@ -11,8 +11,7 @@ export const AboutSection = () => {
         <div className="glass-card p-8 md:p-12 max-w-4xl mx-auto">
           <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
             Results-driven MERN Stack Developer with 4+ years of experience building 
-            high-performance web applications including average load times under 1s. 
-            Skilled in React.js, Node.js, Express.js, and MongoDB, with a strong 
+            high-performance web applications. Skilled in React.js, SpringBoot, MySQL and MongoDB, with a strong 
             focus on <span className="text-primary font-semibold">performance optimization</span>, 
             <span className="text-primary font-semibold"> scalability</span>, and 
             <span className="text-primary font-semibold"> intuitive UI/UX</span>. 
