@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Mail, Phone, Github, Linkedin, Code, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ResumeMessageWithPlane } from '../ui/ResumeMessageWithPlane';
+import MagnetLines from '../../../components/MagnetLines/MagnetLines';
 
 const contactInfo = [
   {
@@ -41,9 +42,43 @@ const socialLinks = [
 
 export const ContactSection = () => {
   const [showResumeMessage, setShowResumeMessage] = React.useState(false);
+  const [magnetGrid, setMagnetGrid] = useState({ rows: 9, columns: 9 });
+  const sectionRef = React.useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function updateGrid() {
+      let width = window.innerWidth;
+      let height = window.innerHeight;
+      if (sectionRef.current) {
+        const rect = sectionRef.current.getBoundingClientRect();
+        width = rect.width;
+        height = rect.height;
+      }
+      // Aim for lines every ~50px
+      const columns = Math.max(10, Math.floor(width / 50));
+      const rows = Math.max(10, Math.floor(height / 50));
+      setMagnetGrid({ rows, columns });
+    }
+    updateGrid();
+    window.addEventListener('resize', updateGrid);
+    return () => window.removeEventListener('resize', updateGrid);
+  }, []);
   return (
-    <section id="contact" className="py-20 relative">
-      <div className="container mx-auto px-6">
+    <section id="contact" className="py-20 relative overflow-hidden" ref={sectionRef}>
+      {/* MagnetLines above Get In Touch */}
+      <div className="w-full flex justify-center mb-8">
+        <MagnetLines
+          rows={4}
+          columns={Math.max(10, Math.floor(window.innerWidth / 50))}
+          containerSize="100vw"
+          lineColor="#38FBDB"
+          lineWidth="0.8vmin"
+          lineHeight="5vmin"
+          baseAngle={0}
+          style={{ width: '100vw', maxWidth: '100%', height: '8vmin' }}
+        />
+      </div>
+      <div className="container mx-auto px-6 relative z-10">
         <div className="scroll-reveal text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gradient">Get In Touch</h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
@@ -134,6 +169,19 @@ export const ContactSection = () => {
             </div>
           </div>
         </div>
+      </div>
+      {/* MagnetLines at the very bottom */}
+      <div className="w-full flex justify-center mt-16">
+        <MagnetLines
+          rows={7}
+          columns={Math.max(10, Math.floor(window.innerWidth / 50))}
+          containerSize="100vw"
+          lineColor="#38FBDB"
+          lineWidth="0.8vmin"
+          lineHeight="5vmin"
+          baseAngle={0}
+          style={{ width: '100vw', maxWidth: '100%', height: '14vmin' }}
+        />
       </div>
       {/* Resume Message + Plane Animation */}
       <ResumeMessageWithPlane visible={showResumeMessage} onHide={() => setShowResumeMessage(false)} />

@@ -13,12 +13,14 @@ import { FloatingBlobs } from './ui/FloatingBlobs';
 
 export const Portfolio = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
       const currentProgress = (window.pageYOffset / totalScroll) * 100;
       setScrollProgress(currentProgress);
+      setShowBackToTop(window.pageYOffset > 200);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -71,6 +73,19 @@ export const Portfolio = () => {
         <AchievementsSection />
         <ContactSection />
       </main>
+
+      {/* Bottom Right Back to Top Button */}
+      {showBackToTop && (
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="fixed bottom-8 right-8 z-50 bg-primary text-white rounded-full shadow-lg p-3 hover:bg-accent transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-accent"
+          aria-label="Back to top"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
+          </svg>
+        </button>
+      )}
 
       {/* Bottom Navigation */}
       <BottomNavigation />
